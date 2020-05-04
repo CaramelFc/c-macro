@@ -14,16 +14,16 @@ def find_source_root_dir():
     raise Exception("Could not find source root dir by .git")
 
 
-
 class SearchInclude():
     project_source_dir = find_source_root_dir()
     cwd = Path.cwd()
     flags = []
+
     def __init__(self, file_name, *args):
         self.file_wd = (self.cwd / file_name).parent
         self.include_path = [self.file_wd]
         self.found = {}
-        self.found_path = {str(self.file_wd):"found"}
+        self.found_path = {str(self.file_wd): "found"}
         if (self.project_source_dir / ".cc_config").exists():
             with open(str(self.project_source_dir / ".cc_config"), "r") as fd:
                 lines = fd.readlines()
@@ -56,8 +56,6 @@ class SearchInclude():
                     ret.append(line.split('"')[1])
         return ret
 
-
-
     def dfs(self, file_name):
         include_file_name = self.get_include_file_name(file_name)
         if len(include_file_name) == 0:
@@ -65,12 +63,15 @@ class SearchInclude():
         for include_file in include_file_name:
             # class: Path
             include_file_path = self.find_file(include_file)
-            parent_index = len(include_file.split('/')) - 1;
+            parent_index = len(include_file.split('/')) - 1
             if include_file_path == None:
                 continue
-            if str(include_file_path.parents[parent_index]) not in self.found_path:
-                self.found_path[str(include_file_path.parents[parent_index])] = "found"
-                self.include_path.append(include_file_path.parents[parent_index])
+            if str(include_file_path.parents[parent_index]
+                   ) not in self.found_path:
+                self.found_path[str(
+                    include_file_path.parents[parent_index])] = "found"
+                self.include_path.append(
+                    include_file_path.parents[parent_index])
             if str(include_file_path) not in self.found:
                 self.found[str(include_file_path)] = "found"
                 self.dfs(str(include_file_path))
@@ -79,16 +80,16 @@ class SearchInclude():
     def find_file(self, file_name):
         for path in self.include_path:
             file_path = path / file_name
-            if file_path.exists() :
+            if file_path.exists():
                 return file_path
 
         # try to search in project_source_dir
-        ret = self.search_in_project_source_dir(self.project_source_dir, file_name)
+        ret = self.search_in_project_source_dir(self.project_source_dir,
+                                                file_name)
         if ret == None:
-            print("warnning, %s not find, skip it"%(file_name), file = sys.stderr)
+            print("warnning, %s not find, skip it" % (file_name),
+                  file=sys.stderr)
         return ret
-
-
 
     def search_in_project_source_dir(self, path, file_name):
         file_path = path / file_name
@@ -102,8 +103,5 @@ class SearchInclude():
         return None
 
 
-
-
 if __name__ == "__main__":
     SearchInclude(sys.argv[1])
-

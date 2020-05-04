@@ -27,19 +27,17 @@ class StripInclude():
                                 l = index
                             else:
                                 # may deprecate by macro
-                                break;
-                assert(l == -1 and r == -1 or l != -1 and r != -1)
+                                break
+                assert (l == -1 and r == -1 or l != -1 and r != -1)
                 if l != -1 and r != -1:
-                    assert(int(inter_lines[l].split(' ')[1]) <= start and int(inter_lines[r].split(' ')[1]) >= start)
+                    assert (int(inter_lines[l].split(' ')[1]) <= start
+                            and int(inter_lines[r].split(' ')[1]) >= start)
                 if l != -1 and r != -1:
                     del inter_lines[l:r]
                 del index_lines[0]
             for line in inter_lines:
-                print(line, end = '')
+                print(line, end='')
+
 
 if __name__ == "__main__":
     StripInclude(sys.argv[1], sys.argv[2])
-
-
-
-
