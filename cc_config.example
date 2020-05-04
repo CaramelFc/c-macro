@@ -1,0 +1,10 @@
+-Ithird_party
+-Itest
+-DABC
+-DEFG
+-DABCD=12
+-DHAHA
+-std=c++11
+-Wextra
+-Wall
+
